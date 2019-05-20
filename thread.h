@@ -54,12 +54,13 @@ void *chefThread(void *arg)
 
 void *customerThread(void *arg)
 {
+    sem_wait(&kitchen);
     while(1)
     {
-       sem_wait(&kitchen);
+       
         if(eating == false)
         {
-            if(chefDone && threadcheck1 != (int)arg && treadcheck2 != (int)arg)
+            if(sleeping && threadcheck1 != (int)arg && treadcheck2 != (int)arg)
             {
                 printf("Customer %d gets to eat\n", (int)arg);
                 printf("\n");
