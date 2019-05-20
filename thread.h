@@ -12,7 +12,7 @@ sem_t kitchen;
 int times = 0;
 int randNum,randNum1;
 int threadcheck1, treadcheck2;
-bool chefDone = false, eating= true;
+bool sleeping = false, eating= true;
 static int cust0eat = 0,cust1eat = 0,cust2eat = 0;
 
 void *chefThread(void *arg)
@@ -43,7 +43,7 @@ void *chefThread(void *arg)
 
         printf("Chef cooks: %s and %s\n", item[randNum], item[randNum1]);
 
-        chefDone = true;
+        sleeping = true;
         eating = false;
 
         times++;
@@ -75,7 +75,7 @@ void *customerThread(void *arg)
                 {
                     cust2eat++;
                 }
-              chefDone = false;
+              sleeping = false;
               eating = true;
             }
         }
