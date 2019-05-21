@@ -12,7 +12,7 @@ sem_t kitchen;
 int times = 0;
 int randNum,randNum1;
 int threadcheck1, treadcheck2;
-bool sleeping = false, eating= true;
+bool sleeping = false, customereating= true;
 static int cust0eat = 0,cust1eat = 0,cust2eat = 0;
 
 void *chefThread(void *arg)
@@ -23,16 +23,17 @@ void *chefThread(void *arg)
     {
         if(times == 100)
         {
-            sleep(1);
+            sleep(0.5);
             printf("Customer 0 gets to eat %d times\n", cust0eat);
             printf("Customer 1 gets to eat %d times\n", cust1eat);
             printf("Customer 2 gets to eat %d times\n", cust2eat);
             exit(0);
         }
-        if(eating == true)
+        if(customereating == true)
         {
             randNum = rand()%3;
             randNum1 = rand()%3;
+
         while(randNum == randNum1)
         {
             randNum1 = rand()%3;
@@ -44,7 +45,7 @@ void *chefThread(void *arg)
         printf("Chef cooks: %s and %s\n", item[randNum], item[randNum1]);
 
         sleeping = true;
-        eating = false;
+        customereating = false;
 
         times++;
         }
@@ -58,7 +59,7 @@ void *customerThread(void *arg)
     while(1)
     {
        
-        if(eating == false)
+        if(customereating == false)
         {
             if(sleeping && threadcheck1 != (int)arg && treadcheck2 != (int)arg)
             {
@@ -77,7 +78,7 @@ void *customerThread(void *arg)
                     cust2eat++;
                 }
               sleeping = false;
-              eating = true;
+              customereating = true;
             }
         }
         sem_post(&kitchen);
